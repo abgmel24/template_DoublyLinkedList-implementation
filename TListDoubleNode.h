@@ -5,21 +5,21 @@
 #include <exception>
 
 template <class T>
-class TListNode {
+class TDoubleListNode {
     public:
-        TListNode<T> *next;
-        TListNode<T> *prev;
+        TDoubleListNode<T> *next;
+        TDoubleListNode<T> *prev;
         T data;
 
-        TListNode() {}
+        TDoubleListNode() {}
 
-        TListNode(T d) {
+        TDoubleListNode(T d) {
+            data = d;
             next = NULL;
             prev = NULL;
-            data = d;
         }
 
-        ~TListNode() {
+        ~TDoubleListNode() {
             delete next;
             delete prev;
         }

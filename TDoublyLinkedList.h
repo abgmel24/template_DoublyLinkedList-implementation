@@ -1,40 +1,44 @@
 #ifndef DLL_H
 #define DLL_H
 
-#include "TListNode.h"
+#include "TListDoubleNode.h"
 using namespace std;
 
 template <class T>
-class DoublyLinkedList {
+class TDoublyLinkedList {
     private:
-        TListNode<T> *head;
-        TListNode<T> *tail;
+        TDoubleListNode<T> *head;
+        TDoubleListNode<T> *tail;
         unsigned int size;
 
     public:
-        DoublyLinkedList() {
+        TDoublyLinkedList() {
             size = 0;
             head = NULL;
             tail = NULL;
         }
         
-        ~DoublyLinkedList() {
+        ~TDoublyLinkedList() {
             //TODO
-            TListNode<T> curr = head;
-            while(curr != NULL) {
-                curr = curr->next;
+            TDoubleListNode<T> *curr = head;
 
-                curr->prev->~TListNode();
-                cout << "deconstructing list" << endl;
+            while(curr) {
+                // cout << "Data: " << curr->data << " at " << &curr << endl;
+                TDoubleListNode<T> *temp = curr;
+                // cout << "next: " << curr->next << endl;
+                curr = curr->next;
+                // cout << "switched to: " << &curr << endl;
+                curr->prev= NULL;
+
+                delete temp;
             }
-            delete curr;
-            delete head;
+
             delete tail;
 
         }
 
         void insertFront(T data) {
-            TListNode<T> *node = new TListNode<T>(data);
+            TDoubleListNode<T> *node = new TDoubleListNode<T>(data);
 
             if(isEmpty()) {
                 tail = node;
@@ -47,7 +51,7 @@ class DoublyLinkedList {
         }
 
         void insertBack(T data) {
-            TListNode<T> *node = new TListNode<T>(data);
+            TDoubleListNode<T> *node = new TDoubleListNode<T>(data);
 
             if(isEmpty()) {
                 head = node;
@@ -64,7 +68,7 @@ class DoublyLinkedList {
                 throw std::runtime_error("Cannot remove from an empty DLL");
             }
 
-            TListNode<T> *temp = head;
+            TDoubleListNode<T> *temp = head;
 
             if(head->next == NULL) {
                 tail = NULL;
@@ -88,7 +92,7 @@ class DoublyLinkedList {
                 throw std::runtime_error("Cannot remove from an empty DLL");
             }
 
-            TListNode<T> *temp = tail;
+            TDoubleListNode<T> *temp = tail;
 
             if(tail->prev == NULL) {
                 head = NULL;
@@ -111,7 +115,7 @@ class DoublyLinkedList {
                 throw std::runtime_error("Cannot remove from an empty DLL");
             }
 
-            TListNode<T> *curr = head;
+            TDoubleListNode<T> *curr = head;
 
             while(curr->data != val) {
                 curr = curr->next;
@@ -140,11 +144,25 @@ class DoublyLinkedList {
             delete curr;
             return d;
         }
+
+        T get(int index) {
+            if(index < 0 || index > size)
+                return NULL;
+            
+            int i = 0;
+            TDoubleListNode<T> *curr = head;
+            while(i < index) {
+                curr = curr->next;
+                i++;
+            }
+            
+            return curr->data;
+        }
         
         int find(T val) {
             int index = -1;
 
-            TListNode<T> *curr = head;
+            TDoubleListNode<T> *curr = head;
             while(curr != NULL) {
                 index++;
 
@@ -167,7 +185,7 @@ class DoublyLinkedList {
         }
 
         void printList() {
-            TListNode<T> *curr = head;
+            TDoubleListNode<T> *curr = head;
             cout << "List: ";
             while(curr != NULL) {
                 cout << curr->data << " ";

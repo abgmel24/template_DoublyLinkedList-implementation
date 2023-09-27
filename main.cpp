@@ -1,8 +1,8 @@
-#include "DoublyLinkedList.h"
+#include "TDoublyLinkedList.h"
 using namespace std;
 
 int main(int argc, char **argv) {
-    DoublyLinkedList<int> *dll = new DoublyLinkedList<int>();
+    TDoublyLinkedList<int> *dll = new TDoublyLinkedList<int>();
 
     dll->insertBack(4);
     dll->insertFront(34);
@@ -31,4 +31,13 @@ int main(int argc, char **argv) {
     dll->removeBack();
     cout << "6. ";
     dll->printList(); //45
+
+    dll->insertBack(44);
+    dll->insertFront(10);
+
+    //dll->~TDoublyLinkedList();
+    dll->printList();
+    delete dll;
+
+    return 0;
 }
